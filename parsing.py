@@ -5,9 +5,9 @@ from telethon.tl.functions.messages import GetHistoryRequest
 
 
 async def connect():
-    api_id = 23546937
-    api_hash = '74f259c32ac5bc7904a121b77594edc9'
-    phone = '+79773024886'
+    api_id = 1
+    api_hash = ''
+    phone = '+7'
     # Создайте TelegramClient только один раз в main()
     client = TelegramClient(phone, api_id, api_hash)
     await client.start()
