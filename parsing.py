@@ -7,12 +7,12 @@ from telethon.tl.functions.messages import GetHistoryRequest
 
 from scripts import async_read_json_file, async_dump_json_file
 
-api_id = 1
-api_hash = ''
-phone = ''
+api_id = 23546937
+api_hash = '74f259c32ac5bc7904a121b77594edc9'
+phone = '+79773024886'
 
 
-client = TelegramClient('phone', api_id, api_hash).start()
+client = TelegramClient(phone, api_id, api_hash).start()
 
 
 async def parsing(channels):
@@ -75,19 +75,9 @@ async def parsing(channels):
 # channel_for_parsing = asyncio.run(async_read_json_file('channels.json'))
 # client.loop.run_until_complete(parsing(channel_for_parsing))
 
-async def connect():
-    api_id = 23546937
-    api_hash = '74f259c32ac5bc7904a121b77594edc9'
-    phone = '+79773024886'
-    # Создайте TelegramClient только один раз в main()
-    client = TelegramClient(phone, api_id, api_hash)
-    await client.start()
-    return client
-
 
 async def parse_channel_week(channel_id):
     pars = True
-    client = await connect()
     timezone = pytz.timezone('Europe/Moscow')
     last_week = datetime.now(timezone) - timedelta(days=7)
     channel = await client.get_input_entity(channel_id)
