@@ -16,11 +16,11 @@ from scripts import async_read_json_file, async_dump_json_file, get_channel_id, 
 
 
 # Данные для авторизации
-api_id = 28768429
-api_hash = 'd2157a9c146b91cdc7f96a935885e78b'
-token = "7455255676:AAEvjIxlJyfRaAoUhQdWSWOZHq-4USqMAqA"
+api_id = 1
+api_hash = ''
+token = ""
 # Целевой канал
-channel_id = 'testpotapov'
+channel_id = ''
 
 
 awaiting_channel_input = {}
@@ -127,8 +127,8 @@ async def post(event):
                     if post_info["photo"] in os.listdir(media_dir):
                         await bot.send_message(
                             entity=channel_id,
-                            message=f"{media_dir}/{post_info['text']}\n\nАвтор поста: {post_info['owner']}",
-                            file=os.path.join(f'{post_info["photo"]}')
+                            message=f"{post_info['text']}\n\nАвтор поста: {post_info['owner']}",
+                            file=f'{media_dir}/{post_info["photo"]}'
                         )
                     else:
                         await bot.send_message(
@@ -167,6 +167,7 @@ async def add_channels_handler(event):
     sender_id = event.sender_id
     awaiting_channel_input[sender_id] = 'add_channels'
     await event.respond("Пожалуйста, введите ID канала или его @username:")
+
 
 @bot.on(events.CallbackQuery(data='otchet'))
 async def otchet(event):
@@ -237,7 +238,7 @@ async def handle_new_message_otchet(event):
             await event.respond('Вот ваш месячный отчет!', file=f'{username}-месячный-отчет.docx')
             shutil.rmtree(username)
             os.remove(f'{username}-месячный-отчет.docx')
-        elif awaiting_channel_input[sender_id] == 'add_channels' in awaiting_channel_input and awaiting_channel_input[sender_id]:
+        elif awaiting_channel_input[sender_id] == 'add_channels':
             message_text = event.message.message.strip()
             # Проверка на наличие ссылки в сообщении
             if re.search(r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', message_text):

@@ -7,12 +7,12 @@ from telethon.tl.functions.messages import GetHistoryRequest
 
 from scripts import async_read_json_file, async_dump_json_file
 
-api_id = 28768429
-api_hash = 'd2157a9c146b91cdc7f96a935885e78b'
-phone = '+79165891660'
+api_id = 1
+api_hash = ''
+phone = ''
 
 
-client = TelegramClient(phone, api_id, api_hash).start()
+client = TelegramClient(phone, api_id, api_hash).start(phone=phone)
 
 
 async def parsing(channels):
@@ -54,7 +54,7 @@ async def parsing(channels):
                                          all(withe_word in last_message.message for withe_word in withe_list_words)
                     if message_conditions:
                         post = await async_read_json_file('posts.json')
-                        media_path = f"{channel_id}_{last_message.id}.png" if last_message.media and hasattr(
+                        media_path = f"media/{channel_id}_{last_message.id}.png" if last_message.media and hasattr(
                             last_message.media, 'photo') else None
                         await client.download_media(last_message.media.photo, media_path) if media_path else None
                         post[f'{channel_id}-{last_message.id}'] = {
