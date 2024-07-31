@@ -7,9 +7,9 @@ from telethon.tl.functions.messages import GetHistoryRequest
 
 from scripts import async_read_json_file, async_dump_json_file
 
-api_id = 23546937
-api_hash = '74f259c32ac5bc7904a121b77594edc9'
-phone = '+79773024886'
+api_id = 28768429
+api_hash = 'd2157a9c146b91cdc7f96a935885e78b'
+phone = '+79165891660'
 
 
 client = TelegramClient(phone, api_id, api_hash).start()
@@ -119,7 +119,6 @@ async def parse_channel_week(channel_id):
 
 async def parse_channel_month(channel_id):
     pars = True
-    client = await connect()
     timezone = pytz.timezone('Europe/Moscow')
     last_week = datetime.now(timezone) - timedelta(days=30)
     channel = await client.get_input_entity(channel_id)

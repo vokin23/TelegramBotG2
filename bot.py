@@ -16,9 +16,9 @@ from scripts import async_read_json_file, async_dump_json_file, get_channel_id, 
 
 
 # Данные для авторизации
-api_id = 1
-api_hash = ''
-token = ""
+api_id = 28768429
+api_hash = 'd2157a9c146b91cdc7f96a935885e78b'
+token = "7455255676:AAEvjIxlJyfRaAoUhQdWSWOZHq-4USqMAqA"
 # Целевой канал
 channel_id = 'testpotapov'
 
