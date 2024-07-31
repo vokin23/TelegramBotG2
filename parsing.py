@@ -7,9 +7,9 @@ from telethon.tl.functions.messages import GetHistoryRequest
 
 from scripts import async_read_json_file, async_dump_json_file
 
-api_id = 29859875
-api_hash = 'eba76ba16c418918e560c3098e4f91f3'
-phone = '+79165891660'
+api_id = 1
+api_hash = ''
+phone = ''
 
 
 client = TelegramClient('phone', api_id, api_hash).start()

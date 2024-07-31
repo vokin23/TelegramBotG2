@@ -165,32 +165,8 @@ async def handle_restart(event):
 @bot.on(events.CallbackQuery(data='add_channels'))
 async def add_channels_handler(event):
     sender_id = event.sender_id
-    awaiting_channel_input[sender_id] = True
+    awaiting_channel_input[sender_id] = 'add_channels'
     await event.respond("Пожалуйста, введите ID канала или его @username:")
-
-
-@bot.on(events.NewMessage())
-async def handle_new_message(event):
-    sender_id = event.sender_id
-    if sender_id in awaiting_channel_input and awaiting_channel_input[sender_id]:
-        message_text = event.message.message.strip()
-        # Проверка на наличие ссылки в сообщении
-        if re.search(r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', message_text):
-            channels = await async_read_json_file('channels.json')
-            if 'channels' not in channels:
-                channels['channels'] = []
-
-            channel_new = message_text.split('/')[-1]
-            if channel_new not in channels['channels']:
-                channels['channels'].append(channel_new)
-                await async_dump_json_file('channels.json', channels)
-                await event.respond(f"Ссылка {message_text} успешно добавлена!")
-            else:
-                await event.respond(f"Ссылка {message_text} уже есть в списке.")
-            awaiting_channel_input[sender_id] = False
-        else:
-            await event.respond("Пожалуйста, отправьте ссылку.")
-
 
 @bot.on(events.CallbackQuery(data='otchet'))
 async def otchet(event):
@@ -248,7 +224,7 @@ async def handle_new_message_otchet(event):
                 awaiting_channel_input.pop(sender_id)
             else:
                 await event.respond("Пожалуйста, отправьте корректную ссылку.")
-        elif awaiting_channel_input[sender_id] == 'weak':
+        elif awaiting_channel_input[sender_id] == 'mounht':
             username = event.from_user.username
             telegram_link = event.text
             channel_id = get_channel_id(telegram_link)
@@ -258,9 +234,27 @@ async def handle_new_message_otchet(event):
             file_paths = get_files_in_directory(username)
             create_docx_from_screenshots(file_paths, f'{username}-месячный-отчет.docx')
 
-            await event.respond('Вот ваш недельный отчет!', file=f'{username}-недельный-отчет.docx')
+            await event.respond('Вот ваш месячный отчет!', file=f'{username}-месячный-отчет.docx')
             shutil.rmtree(username)
             os.remove(f'{username}-месячный-отчет.docx')
+        elif awaiting_channel_input[sender_id] == 'add_channels' in awaiting_channel_input and awaiting_channel_input[sender_id]:
+            message_text = event.message.message.strip()
+            # Проверка на наличие ссылки в сообщении
+            if re.search(r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', message_text):
+                channels = await async_read_json_file('channels.json')
+                if 'channels' not in channels:
+                    channels['channels'] = []
+
+                channel_new = message_text.split('/')[-1]
+                if channel_new not in channels['channels']:
+                    channels['channels'].append(channel_new)
+                    await async_dump_json_file('channels.json', channels)
+                    await event.respond(f"Ссылка {message_text} успешно добавлена!")
+                else:
+                    await event.respond(f"Ссылка {message_text} уже есть в списке.")
+                awaiting_channel_input[sender_id] = False
+            else:
+                await event.respond("Пожалуйста, отправьте ссылку.")
 
 
 print("Бот запущен.")
